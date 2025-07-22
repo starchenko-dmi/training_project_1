@@ -1,4 +1,4 @@
-from masks import get_mask_account, get_mask_card_number
+from src.masks import get_mask_account, get_mask_card_number
 
 
 def mask_account_card(account: str) -> str:
@@ -16,4 +16,7 @@ def mask_account_card(account: str) -> str:
 
 def get_date(date: str) -> str:
     """Декодирует дату и возврашает её в вормате ДД.ММ.ГГГГ"""
-    return f"{date[8:10]}.{date[5:7]}.{date[0:4]}"
+    if len(date) == 26:
+        return f"{str(date[8:10])}.{str(date[5:7])}.{str(date[0:4])}"
+    else:
+        raise TypeError('Не верный формат даты')
