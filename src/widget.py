@@ -19,4 +19,4 @@ def get_date(date: str) -> str:
     if len(date) == 26:
         return f"{str(date[8:10])}.{str(date[5:7])}.{str(date[0:4])}"
     else:
-        raise TypeError('Не верный формат даты')
+        raise TypeError("Не верный формат даты")
