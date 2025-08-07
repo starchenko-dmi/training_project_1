@@ -10,7 +10,6 @@ load_dotenv()
 API_KEY = os.getenv("EXCHANGE_API_KEY")
 headers = {"apikey": API_KEY}
 
-
 def transaction_amount(transaction) -> float:
     """Возвращает сумму транзакции в рублях"""
 
@@ -21,6 +20,8 @@ def transaction_amount(transaction) -> float:
 
     currency_code = transaction["operationAmount"]["currency"]["code"]
     amount = transaction["operationAmount"]["amount"]
+    data = transaction["date"]
+    data_str = data[:10]
 
     # Если уже в рублях - возвращаем как есть
     if currency_code == "RUB":
@@ -28,7 +29,7 @@ def transaction_amount(transaction) -> float:
     else:
         # Конвертируем в рубли
         url = "https://api.apilayer.com/exchangerates_data/convert"
-        params = {"from": currency_code, "to": "RUB", "amount": amount}
+        params = {"from": currency_code, "to": "RUB", "amount": amount, "data": data_str}
 
         try:
             response = requests.get(url, headers=headers, params=params)
