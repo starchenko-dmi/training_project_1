@@ -1,5 +1,6 @@
 from typing import Generator
 
+
 def filter_by_currency(list_transact: list[dict[str, str | int]], monnaie: str) -> Generator:
     """Генераторная функция, возвращающая транзакции по заданной валюте"""
     transaction_filtr = (
