@@ -10,6 +10,7 @@ load_dotenv()
 API_KEY = os.getenv("EXCHANGE_API_KEY")
 headers = {"apikey": API_KEY}
 
+
 def transaction_amount(transaction) -> float:
     """Возвращает сумму транзакции в рублях"""
 
