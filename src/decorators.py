@@ -1,5 +1,6 @@
 def log(filename=False):
     """Функция декоратор с аргументами для логирования данных в консоль или фаил"""
+
     def decorator(func):
         def wrapper(*args, **kwargs):
             try:
