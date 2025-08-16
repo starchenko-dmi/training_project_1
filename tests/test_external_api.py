@@ -6,8 +6,8 @@ from src.external_api import transaction_amount
 def test_transaction_amount_rub():
     """Тест для транзакции в рублях (без конвертации)"""
     transaction = {
-        "date": "2019-07-03T18:35:29.512364", "operationAmount":
-            {"amount": 1500.50, "currency": {"code": "RUB"}}
+        "date": "2019-07-03T18:35:29.512364",
+        "operationAmount": {"amount": 1500.50, "currency": {"code": "RUB"}},
     }
 
     result = transaction_amount(transaction)
@@ -22,8 +22,8 @@ def test_transaction_amount_usd(mock_get):
     mock_response.raise_for_status.return_value = None
     mock_get.return_value = mock_response
     transaction = {
-        "date": "2019-07-03T18:35:29.512364", "operationAmount":
-            {"amount": 1500, "currency": {"code": "USD"}}
+        "date": "2019-07-03T18:35:29.512364",
+        "operationAmount": {"amount": 1500, "currency": {"code": "USD"}},
     }
     result = transaction_amount(transaction)
     assert result == 120000.00
@@ -38,8 +38,8 @@ def test_transaction_amount_amount(mock_get):
     mock_response.raise_for_status.return_value = None
     mock_get.return_value = mock_response
     transaction = {
-        "date": "2019-07-03T18:35:29.512364", "operationAmount":
-            {"amount": 1500, "currency": {"code": "USD"}}
+        "date": "2019-07-03T18:35:29.512364",
+        "operationAmount": {"amount": 1500, "currency": {"code": "USD"}},
     }
     result = transaction_amount(transaction)
     assert result is None
@@ -52,8 +52,8 @@ def test_transaction_amount_no_api_key():
 
     # Создаём транзакцию (даже простую, функция всё равно вернёт None из-за отсутствия ключа)
     transaction = {
-        "date": "2019-07-03T18:35:29.512364", "operationAmount":
-            {"amount": 100, "currency": {"code": "USD"}}
+        "date": "2019-07-03T18:35:29.512364",
+        "operationAmount": {"amount": 100, "currency": {"code": "USD"}},
     }
 
     # Вызываем функцию
@@ -75,8 +75,8 @@ def test_transaction_amount_value_error(mock_get):
 
     # Создаём транзакцию
     transaction = {
-        "date": "2019-07-03T18:35:29.512364", "operationAmount":
-            {"amount": 100, "currency": {"code": "USD"}}
+        "date": "2019-07-03T18:35:29.512364",
+        "operationAmount": {"amount": 100, "currency": {"code": "USD"}},
     }
 
     # Вызываем функцию
