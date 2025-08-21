@@ -1,30 +1,31 @@
+import json
+from unittest.mock import mock_open, patch
+
 from src.utils import receiving_financial_transactions
 
-test_data = [
-    {
-        "id": 441945886,
-        "state": "EXECUTED",
-        "date": "2019-08-26T10:50:58.294041",
-        "operationAmount": {"amount": "31957.58", "currency": {"name": "руб.", "code": "RUB"}},
-        "description": "Перевод организации",
-        "from": "Maestro 1596837868705199",
-        "to": "Счет 64686473678894779589",
-    },
-    {
-        "id": 667307132,
-        "state": "EXECUTED",
-        "date": "2019-07-13T18:51:29.313309",
-        "operationAmount": {"amount": "97853.86", "currency": {"name": "руб.", "code": "RUB"}},
-        "description": "Перевод с карты на счет",
-        "from": "Maestro 1308795367077170",
-        "to": "Счет 96527012349577388612",
-    },
-]
 
+def test_receiving_financial_transactions_success():
+    """Тест успешного чтения JSON файла"""
+    # Подготовка тестовых данных
+    test_data = [
+        {"id": 1, "date": "2023-01-01", "amount": 1500.00, "currency": "RUB", "description": "Покупка продуктов"},
+        {"id": 2, "date": "2023-01-02", "amount": 5000.00, "currency": "RUB", "description": "Зарплата"},
+    ]
 
-def test_receiving_financial_transactions() -> None:
-    """Tests receiving financial transactions"""
-    assert receiving_financial_transactions("test_operations.json") == test_data
+    # Преобразуем данные в JSON строку
+    json_string = json.dumps(test_data, ensure_ascii=False)
+
+    # Мокируем открытие файла
+    with patch("builtins.open", mock_open(read_data=json_string)) as mock_file:
+        result = receiving_financial_transactions("data/operations.json")
+
+        # Проверяем, что файл открывался правильно
+        mock_file.assert_called_once_with("data/operations.json", "r", encoding="utf-8")
+
+        # Проверяем результат
+        assert result == test_data
+        assert isinstance(result, list)
+        assert len(result) == 2
 
 
 def test_receiving_financial_transactions_error_1() -> None:
