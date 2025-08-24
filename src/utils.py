@@ -45,7 +45,7 @@ def get_data_csv(file_path: str) -> list:
     logger.info("Функция get_data_csv запущена")
     try:
         logger.info("Чтение данных из csv файла")
-        df = pd.read_csv(file_path)
+        df = pd.read_csv(file_path, sep=";")
         data = df.to_dict(orient="records")
         logger.info(f"Успешно прочитано {len(data)} записей")
         return data

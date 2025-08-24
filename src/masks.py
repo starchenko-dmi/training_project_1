@@ -17,7 +17,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-def get_mask_card_number(card_number: int) -> str:
+def get_mask_card_number(card_number: str) -> str:
     """Возвращает маску номера карты"""
     logger.info("Функция get_mask_card_number запущена")
     if len(str(card_number)) == 16:
@@ -28,7 +28,7 @@ def get_mask_card_number(card_number: int) -> str:
         raise ValueError("Не верный номер карты")
 
 
-def get_mask_account(account: int) -> str:
+def get_mask_account(account: str) -> str:
     """Возвращает маску номера счета"""
     logger.info("Функция get_mask_account запущена")
     if len(str(account)) == 20:

@@ -1,6 +1,6 @@
 import pytest
 
-from src.processing import filter_by_state, sort_by_date, process_bank_operations, process_bank_search
+from src.processing import filter_by_state, process_bank_operations, process_bank_search, sort_by_date
 
 
 @pytest.fixture()
@@ -44,47 +44,34 @@ def sample_transaction():
     """Фикстура с пустым списком"""
     return []
 
+
 @pytest.fixture
 def sample_transactions():
     """Фикстура с тестовыми данными"""
     return [
-        {
-            'id': 1,
-            'description': 'Покупка в магазине продуктов',
-            'amount': -1250.50,
-            'currency': 'RUB'
-        },
-        {
-            'id': 2,
-            'description': 'Зарплата от компании ООО "Рога и копыта"',
-            'amount': 50000.00,
-            'currency': 'RUB'
-        },
-        {
-            'id': 3,
-            'description': 'Перевод от Иванова И.И.',
-            'amount': 10000.00,
-            'currency': 'RUB'
-        },
+        {"id": 1, "description": "Покупка в магазине продуктов", "amount": -1250.50, "currency": "RUB"},
+        {"id": 2, "description": 'Зарплата от компании ООО "Рога и копыта"', "amount": 50000.00, "currency": "RUB"},
+        {"id": 3, "description": "Перевод от Иванова И.И.", "amount": 10000.00, "currency": "RUB"},
     ]
+
 
 def test_search_by_word(sample_transactions):
     """Тест поиска по слову"""
-    result = process_bank_search(sample_transactions, 'Магазин')
+    result = process_bank_search(sample_transactions, "Магазин")
     assert len(result) == 1
-    assert result[0]['description'] == 'Покупка в магазине продуктов'
+    assert result[0]["description"] == "Покупка в магазине продуктов"
 
 
 def test_case_insensitive_search(sample_transaction):
     """Тест при пустом списке операций"""
-    result = process_bank_search(sample_transaction, 'МАГАЗИН')
+    result = process_bank_search(sample_transaction, "МАГАЗИН")
     assert result == []
 
 
 def test_empty_transactions_list():
     """Тест с пустым списком транзакций"""
     transactions = []
-    categories = ['Продукты', 'Рестораны']
+    categories = ["Продукты", "Рестораны"]
 
     result = process_bank_operations(transactions, categories)
     expected = {}
@@ -94,43 +81,32 @@ def test_empty_transactions_list():
 
 def test_case_sensitive_search():
     """Тест регистрозависимого поиска"""
-    transactions = [
-        {'description': 'Продукты'},
-        {'description': 'продукты'},
-        {'description': 'ПРОДУКТЫ'}
-    ]
-    categories = ['Продукты', 'продукты', 'ПРОДУКТЫ']
+    transactions = [{"description": "Продукты"}, {"description": "продукты"}, {"description": "ПРОДУКТЫ"}]
+    categories = ["Продукты", "продукты", "ПРОДУКТЫ"]
 
     result = process_bank_operations(transactions, categories)
-    expected = {'Продукты': 1, 'продукты': 1, 'ПРОДУКТЫ': 1}
+    expected = {"Продукты": 1, "продукты": 1, "ПРОДУКТЫ": 1}
 
     assert result == expected
 
 
 def test_categories_not_in_transactions():
     """Тест когда категории есть, но их нет в транзакциях"""
-    transactions = [
-        {'description': 'Продукты'},
-        {'description': 'Рестораны'}
-    ]
-    categories = ['Продукты', 'Рестораны', 'Одежда', 'Транспорт']
+    transactions = [{"description": "Продукты"}, {"description": "Рестораны"}]
+    categories = ["Продукты", "Рестораны", "Одежда", "Транспорт"]
 
     result = process_bank_operations(transactions, categories)
-    expected = {'Продукты': 1, 'Рестораны': 1}
+    expected = {"Продукты": 1, "Рестораны": 1}
 
     assert result == expected
 
 
 def test_duplicate_transactions():
     """Тест с дублирующимися транзакциями"""
-    transactions = [
-        {'description': 'Продукты'},
-        {'description': 'Продукты'},
-        {'description': 'Продукты'}
-    ]
-    categories = ['Продукты']
+    transactions = [{"description": "Продукты"}, {"description": "Продукты"}, {"description": "Продукты"}]
+    categories = ["Продукты"]
 
     result = process_bank_operations(transactions, categories)
-    expected = {'Продукты': 3}
+    expected = {"Продукты": 3}
 
     assert result == expected

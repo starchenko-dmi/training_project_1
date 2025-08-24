@@ -1,12 +1,9 @@
 import json
 from unittest.mock import mock_open, patch
 
-from src.utils import receiving_financial_transactions, get_data_csv, get_data_excel
-
-from unittest.mock import patch
-
 import pandas as pd
-import pytest
+
+from src.utils import get_data_csv, get_data_excel, receiving_financial_transactions
 
 
 def test_receiving_financial_transactions_success():
